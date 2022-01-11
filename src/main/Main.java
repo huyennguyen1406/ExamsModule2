@@ -14,12 +14,12 @@ public class Main {
             try {
                 do {
                     System.out.println("----CHƯƠNG TRÌNH QUẢN LÝ DANH BẠ----");
-                    System.out.println("Chọn chức năng theo số (để tiếp tục):");
+                    System.out.println("Chọn chức năng:");
                     System.out.println("1. Xem danh sách");
                     System.out.println("2. Thêm mới");
                     System.out.println("3. Cập nhật");
                     System.out.println("4. Xóa");
-                    System.out.println("5. Tìm kiếm");
+                    System.out.println("5. Tìm kiếm theo tên");
                     System.out.println("6. Đọc từ file");
                     System.out.println("7. Ghi vào file");
                     System.out.println("8. Thoát");
@@ -47,19 +47,19 @@ public class Main {
                             }
                             break;
                         case 4:
-                            System.out.println("▹ Nhập số điện thoại cần sửa:");
+                            System.out.println("Nhập số điện thoại cần sửa:");
                             String phoneDelete = scanner.nextLine();
+                            contactManager.deleteContact(phoneDelete);
                             break;
+
                         case 5:
-                            System.out.println("▹ Nhập từ khóa:");
-                            String keyword = scanner.nextLine();
-                            contactManager.searchContactByNameOrPhone(keyword);
+                            System.out.println("Nhập tên:");
+                            contactManager.findByName();
                             break;
                         case 6:
                             ArrayList<Contact> contactArrayList = contactManager.readFile(ContactManager.PATH_NAME);
                             contactArrayList.forEach(System.out::println);
-                            System.out.println("⛔ Read file successfully !");
-                            System.out.println("--------------------");
+                            System.out.println("Đọc file thành công");
                             break;
                         case 7:
                             contactManager.writeFile(contactManager.getContactList(), ContactManager.PATH_NAME);
@@ -70,9 +70,7 @@ public class Main {
                 } while (true);
             } catch (NumberFormatException | DateTimeParseException e) {
                 System.out.println();
-                System.out.println("⛔ Bạn nhập sai dữ liệu, mời nhập lại !!!");
-                System.out.println("--------------------");
-                System.out.println();
+                System.out.println("Thử lại!!!");
             }
     }
 }

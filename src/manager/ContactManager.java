@@ -36,8 +36,6 @@ public class ContactManager {
         System.out.println("Nhập họ tên: ");
         String name = scanner.nextLine();
         System.out.println("Nhập giới tính:");
-        System.out.println("1. Male");
-        System.out.println("2. Female");
         String gender = scanner.nextLine();
         System.out.println("Nhập địa chỉ: ");
         String address = scanner.nextLine();
@@ -74,8 +72,6 @@ public class ContactManager {
             System.out.println("Nhập Họ tên mới:");
             editContact.setName(scanner.nextLine());
             System.out.println("Nhập giới tính mới:");
-
-            int gender = Integer.parseInt(scanner.nextLine());
             editContact.setGender(scanner.nextLine());
             System.out.println("▹ Nhập địa chỉ mới:");
             editContact.setAddress(scanner.nextLine());
@@ -101,7 +97,6 @@ public class ContactManager {
             }
         }
         if (deleteContact != null) {
-            String confirm = scanner.next();
             contactList.remove(deleteContact);
             System.out.println("Xóa " + phoneNumber + " thành công !");
         } else {
@@ -110,27 +105,20 @@ public class ContactManager {
         }
     }
 
-    public void searchContactByNameOrPhone(String keyword) {
-        ArrayList<Contact> contacts = new ArrayList<>();
-        for (Contact contact : contactList) {
-            if (validate.validatePhoneOrName(keyword, contact.getPhoneNumber()) || validate.validatePhoneOrName(keyword, contact.getName())) {
-                contacts.add(contact);
-            }
-        }
-        if (contacts.isEmpty()) {
-            System.out.println("Không tìm thấy danh bạ với từ khóa trên !");
-            System.out.println("--------------------");
-        } else {
-            System.out.println("Danh bạ cần tìm:");
-            contacts.forEach(System.out::println);
-            System.out.println("--------------------");
-        }
-    }
-
     public void displayAll() {
         for (Contact contact : contactList) {
             System.out.printf("| %-15s| %-10s| %-15s| %-10s| %-10s|\n", contact.getPhoneNumber(), contact.getGroup(), contact.getName(), contact.getGender(), contact.getAddress());
             System.out.println("-----------------------------------------------------------------------");
+        }
+    }
+
+    public void findByName() {
+        System.out.println("Nhập tên muốn tìm kiếm: ");
+        String name = scanner.nextLine();
+        for(Contact contact : contactList){
+            if( contact.getName().contains(name)){
+                System.out.println(contact);
+            }
         }
     }
 
@@ -170,10 +158,9 @@ public class ContactManager {
                         + contact.getAddress() + "," + contact.getDateOfBirth() + "," + contact.getEmail() + "\n");
             }
             bufferedWriter.close();
-            System.out.println("⛔ Write file successfully !");
-            System.out.println("--------------------");
-        } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
+            System.out.println("Ghi file thành công!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -188,7 +175,7 @@ public class ContactManager {
 
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
         return contacts;
     }
