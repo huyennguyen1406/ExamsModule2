@@ -29,7 +29,6 @@ public class ContactManager {
 
     public void addContact() {
         System.out.println("Nhập thông tin: ");
-        System.out.println("_________________");
         String phoneNumber = inputPhoneNumber();
         System.out.println("Nhập tên nhóm: ");
         String group = scanner.nextLine();
@@ -41,7 +40,7 @@ public class ContactManager {
         String address = scanner.nextLine();
         System.out.println("Nhập ngày sinh: ");
         String date = scanner.nextLine();
-        LocalDate dateOfBirth = LocalDate.parse(date);
+        LocalDate dateOfBirth = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-LL-yyyy"));
         String email = inputEmail();
 
         for (Contact phone : contactList) {
@@ -172,7 +171,6 @@ public class ContactManager {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] strings = line.split(", ");
                 contacts.add(new Contact(strings[0], strings[1], strings[2], strings[3], strings[4], LocalDate.parse(strings[5], DateTimeFormatter.ISO_LOCAL_DATE), strings[6]));
-
             }
         } catch (IOException e) {
             System.err.println(e.getMessage());
