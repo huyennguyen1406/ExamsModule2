@@ -18,16 +18,16 @@ public class RunMain {
         do {
             System.out.println();
             System.out.println("___CHƯƠNG TRÌNH QUẢN LÝ DANH BẠ___");
-            System.out.println("1. Xem Danh Sách               |");
-            System.out.println("2. Thêm Mới                    |");
-            System.out.println("3. Cập Nhật                    |");
-            System.out.println("4. Xóa                         |");
-            System.out.println("5. Tìm Kiếm                    |");
-            System.out.println("6. Ghi Vào File                |");
-            System.out.println("7. Đọc Từ File                 |");
-            System.out.println("8. Thoát                       |");
-            System.out.println("--------------------------------");
-            System.out.print("            Mời Nhập Lựa Chọn : ");
+            System.out.println("|1. Xem danh sách                |");
+            System.out.println("|2. Thêm mới                     |");
+            System.out.println("|3. Cập nhật                     |");
+            System.out.println("|4. Xóa                          |");
+            System.out.println("|5. Tìm kiếm                     |");
+            System.out.println("|6. Ghi vào File                 |");
+            System.out.println("|7. Đọc từ File                  |");
+            System.out.println("|8. Thoát                        |");
+            System.out.println("----------------------------------");
+            System.out.print("Nhập lựa chọn: ");
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -37,21 +37,21 @@ public class RunMain {
                     contactManager.addContact();
                     break;
                 case 3:
-                    System.out.print("Nhập Vào Số Điện Thoại");
+                    System.out.print("Nhập số điện thoại");
                     scanner.nextLine();
                     String s = scanner.nextLine();
                     contactManager.editContact(s);
                     System.out.println(s);
                     break;
                 case 4:
-                    System.out.print("Nhập Số Điện Thoại : ");
+                    System.out.print("Nhập số điện thoại : ");
                     scanner.nextLine();
                     String s1 = scanner.nextLine();
                     contactManager.deleteContact(s1);
                     System.out.println(s1);
                     break;
                 case 5:
-                    System.out.print("Nhập Tên Muốn Tìm : ");
+                    System.out.print("Nhập tên tìm kiếm: ");
                     scanner.nextLine();
                     String name = scanner.nextLine();
                     ArrayList<Contact> s2 = contactManager.searchContact(name);

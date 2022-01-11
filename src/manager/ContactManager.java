@@ -86,22 +86,22 @@ public class ContactManager {
         }
         if (contacts != null) {
             int index = contactList.indexOf(contacts);
-            System.out.print("Nhập số Điện Thoại : ");
+            System.out.print("Nhập số điện thoại : ");
             String phone1 = scanner.nextLine();
             contacts.setPhoneNumber(phone1);
-            System.out.print("Nhập Nhóm Danh Bạ: ");
+            System.out.print("Nhập nhóm danh bạ: ");
             String group = scanner.nextLine();
             contacts.setGroup(group);
-            System.out.print("Nhập Họ Và Tên : ");
+            System.out.print("Nhập Họ tên : ");
             String name = scanner.nextLine();
             contacts.setName(name);
-            System.out.print("Nhập Giới Tính : ");
+            System.out.print("Nhập giới tính: ");
             String gender = scanner.nextLine();
             contacts.setGender(gender);
-            System.out.print("Nhập Địa Chỉ : ");
+            System.out.print("Nhập địa chỉ: ");
             String address = scanner.nextLine();
             contacts.setAddress(address);
-            System.out.print("Nhập Ngày Sinh (dd-mm-yyyy) : ");
+            System.out.print("Nhập ngày sinh (dd-mm-yyyy) : ");
             String date = scanner.nextLine();
             LocalDate dateOfBirth = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-LL-yyyy"));
             contacts.setBirthday(dateOfBirth);
@@ -109,7 +109,7 @@ public class ContactManager {
             String email = scanner.nextLine();
             contacts.setEmail(email);
             contactList.set(index, contacts);
-            System.out.println("Sửa Thành Công !!!");
+            System.out.println("Sửa thành công !!!");
             writeFile(contactList, PATH_NAME);
         }
     }
@@ -122,7 +122,7 @@ public class ContactManager {
             }
         }
         contactList.remove(contacts);
-        System.out.println("Xóa Thành Công !!!");
+        System.out.println("Xóa thành công !!!");
     }
 
     public ArrayList<Contact> searchContact(String name) {
