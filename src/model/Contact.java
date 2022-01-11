@@ -8,19 +8,19 @@ public class Contact {
     private String name;
     private String gender;
     private String address;
-    private LocalDate dateOfBirth;
+    private LocalDate birthday;
     private String email;
 
     public Contact() {
     }
 
-    public Contact(String phoneNumber, String group, String name, String gender, String address, LocalDate dateOfBirth, String email) {
+    public Contact(String phoneNumber, String group, String name, String gender, String address, LocalDate birthday, String email) {
         this.phoneNumber = phoneNumber;
         this.group = group;
         this.name = name;
         this.gender = gender;
         this.address = address;
-        this.dateOfBirth = dateOfBirth;
+        this.birthday = birthday;
         this.email = email;
     }
 
@@ -64,12 +64,12 @@ public class Contact {
         this.address = address;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public LocalDate getBirthday() {
+        return birthday;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     public String getEmail() {
@@ -88,7 +88,7 @@ public class Contact {
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
                 ", address='" + address + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
+                ", dateOfBirth=" + birthday +
                 ", email='" + email + '\'' +
                 '}';
     }

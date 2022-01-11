@@ -10,170 +10,157 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ContactManager {
-    public static ArrayList<Contact> contactList;
-    public static Scanner scanner = new Scanner(System.in);
-    public static Validate validate = new Validate();
-    public static final String PATH_NAME = "src/data/contacts.csv";
-
-    public ContactManager() {
-        if(new File(PATH_NAME).length() == 0) {
-            this.contactList = new ArrayList<>();
-        } else {
-            this.contactList = readFile(PATH_NAME);
-        }
-    }
+    public static final String PATH_NAME = "src/contacts.csv";
+    private final Scanner scanner = new Scanner(System.in);
+    private final ArrayList<Contact> contactList;
+    private final Validate validate = new Validate();
 
     public ArrayList<Contact> getContactList() {
         return contactList;
     }
 
+    public ContactManager() {
+        this.contactList = new ArrayList<>();
+    }
+
     public void addContact() {
-        System.out.println("Nhập thông tin: ");
-        String phoneNumber = inputPhoneNumber();
-        System.out.println("Nhập tên nhóm: ");
+        String phone = enterPhoneNumber();
+        System.out.print("Nhập nhóm danh bạ : ");
         String group = scanner.nextLine();
-        System.out.println("Nhập họ tên: ");
+        System.out.print("Nhập Họ tên : ");
         String name = scanner.nextLine();
-        System.out.println("Nhập giới tính:");
+        System.out.print("Nhập giới tính : ");
         String gender = scanner.nextLine();
-        System.out.println("Nhập địa chỉ: ");
+        System.out.print("Nhập địa chỉ : ");
         String address = scanner.nextLine();
-        System.out.println("Nhập ngày sinh: ");
+        System.out.print("Nhập ngày sinh(dd-mm-yyyy):");
         String date = scanner.nextLine();
         LocalDate dateOfBirth = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-LL-yyyy"));
-        String email = inputEmail();
-
-        for (Contact phone : contactList) {
-            if (phone.getPhoneNumber().equals(phoneNumber)) {
-                System.out.println("Số điện thoại bị trùng, mời kiểm tra lại !");
-                System.out.println("--------------------");
-                return;
-            }
-        }
-
-        Contact contact = new Contact(phoneNumber, group, name, gender, address, dateOfBirth, email);
-        contactList.add(contact);
-        System.out.println("Thêm " + phoneNumber + " vào danh bạ thành công !");
-        System.out.println("--------------------");
+        String email = enterEmail();
+        contactList.add(new Contact(phone, group, name, gender, address, dateOfBirth, email));
+        writeFile(contactList, PATH_NAME);
     }
 
-    public void updateContact(String phoneNumber) {
-        Contact editContact = null;
-        for (Contact contact : contactList) {
-            if (contact.getPhoneNumber().equals(phoneNumber)) {
-                editContact = contact;
-            }
-        }
-        if (editContact != null) {
-            int index = contactList.indexOf(editContact);
-            System.out.println("Nhập tên nhóm mới:");
-            editContact.setGroup(scanner.nextLine());
-            System.out.println("Nhập Họ tên mới:");
-            editContact.setName(scanner.nextLine());
-            System.out.println("Nhập giới tính mới:");
-            editContact.setGender(scanner.nextLine());
-            System.out.println("▹ Nhập địa chỉ mới:");
-            editContact.setAddress(scanner.nextLine());
-            System.out.println("Nhập ngày sinh mới:");
-            String date = scanner.nextLine();
-            LocalDate dateOfBirth = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-LL-yyyy"));
-            editContact.setDateOfBirth(dateOfBirth);
-            editContact.setEmail(inputEmail());
-            contactList.set(index, editContact);
-            System.out.println("Sửa " + phoneNumber + " thành công !");
-            System.out.println("--------------------");
-        } else {
-            System.out.println("Không tìm được số điện thoại trên !");
-            System.out.println("--------------------");
-        }
-    }
-
-    public void deleteContact(String phoneNumber) {
-        Contact deleteContact = null;
-        for (Contact contact : contactList) {
-            if (contact.getPhoneNumber().equals(phoneNumber)) {
-                deleteContact = contact;
-            }
-        }
-        if (deleteContact != null) {
-            contactList.remove(deleteContact);
-            System.out.println("Xóa " + phoneNumber + " thành công !");
-        } else {
-            System.out.println("Không tìm thấy số điện thoại trên !");
-            System.out.println("--------------------");
-        }
-    }
-
-    public void displayAll() {
-        for (Contact contact : contactList) {
-            System.out.printf("| %-15s| %-10s| %-15s| %-10s| %-10s|\n", contact.getPhoneNumber(), contact.getGroup(), contact.getName(), contact.getGender(), contact.getAddress());
-            System.out.println("-----------------------------------------------------------------------");
-        }
-    }
-
-    public void findByName() {
-        System.out.println("Nhập tên muốn tìm kiếm: ");
-        String name = scanner.nextLine();
-        for(Contact contact : contactList){
-            if( contact.getName().contains(name)){
-                System.out.println(contact);
-            }
-        }
-    }
-
-    public String inputEmail() {
+    private String enterEmail() {
         String email;
         while (true) {
-            System.out.println("Nhập email: ");
+            System.out.print("Nhập Email : ");
             String inputEmail = scanner.nextLine();
             if (!validate.validateEmail(inputEmail)) {
-                System.out.println("Email hợp lệ!!!");
+                System.out.println("Email không hợp lệ !!!");
             } else {
                 email = inputEmail;
                 break;
             }
-        } return email;
+        }
+        return email;
     }
 
-    public String inputPhoneNumber() {
+    public String enterPhoneNumber() {
         String phoneNumber;
         while (true) {
-            System.out.println("Nhập số điện thoại: ");
+            System.out.print("Nhập số điện thoại : ");
             String phone = scanner.nextLine();
             if (!validate.validatePhone(phone)) {
-                System.out.println("Số điện thoại không hợp lệ!!!");
+                System.out.println("Số điện thoại không hợp lệ !!!");
             } else {
                 phoneNumber = phone;
                 break;
             }
-        } return phoneNumber;
+        }
+        return phoneNumber;
     }
 
-    public void writeFile(ArrayList<Contact> contactList, String path) {
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path));
-            for (Contact contact : contactList) {
-                bufferedWriter.write(contact.getPhoneNumber() + "," + contact.getGroup() + "," + contact.getName() + "," + contact.getGender() + ","
-                        + contact.getAddress() + "," + contact.getDateOfBirth() + "," + contact.getEmail() + "\n");
-            }
-            bufferedWriter.close();
-            System.out.println("Ghi file thành công!");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+    public void displayContacts() {
+        for (Contact c : contactList) {
+            System.out.println(c);
         }
     }
 
-    public ArrayList<Contact> readFile(String path) {
+    public void editContact(String phone) {
+        Contact contacts = null;
+        for (Contact c : contactList) {
+            if (c.getPhoneNumber().equals(phone)) {
+                contacts = c;
+            }
+        }
+        if (contacts != null) {
+            int index = contactList.indexOf(contacts);
+            System.out.print("Nhập số Điện Thoại : ");
+            String phone1 = scanner.nextLine();
+            contacts.setPhoneNumber(phone1);
+            System.out.print("Nhập Nhóm Danh Bạ: ");
+            String group = scanner.nextLine();
+            contacts.setGroup(group);
+            System.out.print("Nhập Họ Và Tên : ");
+            String name = scanner.nextLine();
+            contacts.setName(name);
+            System.out.print("Nhập Giới Tính : ");
+            String gender = scanner.nextLine();
+            contacts.setGender(gender);
+            System.out.print("Nhập Địa Chỉ : ");
+            String address = scanner.nextLine();
+            contacts.setAddress(address);
+            System.out.print("Nhập Ngày Sinh (dd-mm-yyyy) : ");
+            String date = scanner.nextLine();
+            LocalDate dateOfBirth = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-LL-yyyy"));
+            contacts.setBirthday(dateOfBirth);
+            System.out.print("Nhập Email: ");
+            String email = scanner.nextLine();
+            contacts.setEmail(email);
+            contactList.set(index, contacts);
+            System.out.println("Sửa Thành Công !!!");
+            writeFile(contactList, PATH_NAME);
+        }
+    }
+
+    public void deleteContact(String phone) {
+        Contact contacts = null;
+        for (Contact c : contactList) {
+            if (c.getPhoneNumber().equals(phone)) {
+                contacts = c;
+            }
+        }
+        contactList.remove(contacts);
+        System.out.println("Xóa Thành Công !!!");
+    }
+
+    public ArrayList<Contact> searchContact(String name) {
+        ArrayList<Contact> contacts1 = new ArrayList<>();
+        for (Contact c : contactList) {
+            if (c.getName().equals(name) || c.getPhoneNumber().equals(name)) {
+                contacts1.add(c);
+            }
+        }
+        return contacts1;
+    }
+
+    public void writeFile(ArrayList<Contact> contacts, String path) {
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path));
+            for (Contact contact : contacts) {
+                bufferedWriter.write(contact.getPhoneNumber() + "," +
+                        contact.getGroup() + "," + contact.getName() + "," + contact.getGender() + "," +
+                        contact.getAddress() + "," + contact.getBirthday() + "," + contact.getEmail() + "\n");
+            }
+            bufferedWriter.close();
+            System.out.println("Ghi File Thành Công !!!");
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public static ArrayList<Contact> readFile(String path) {
         ArrayList<Contact> contacts = new ArrayList<>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] strings = line.split(", ");
+                String[] strings = line.split(",");
                 contacts.add(new Contact(strings[0], strings[1], strings[2], strings[3], strings[4], LocalDate.parse(strings[5], DateTimeFormatter.ISO_LOCAL_DATE), strings[6]));
             }
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
         }
         return contacts;
     }
